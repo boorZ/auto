@@ -4,7 +4,6 @@ package ${classPath};
 
 ${imports}
 
-@NoRepositoryBean
 public interface ${fileName} extends CommonRepository<${T}, Integer>{
 
 }

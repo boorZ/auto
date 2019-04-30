@@ -7,7 +7,7 @@ ${imports}
 @RestController
 @RequestMapping(value = "/")
 public class ${fileName} {
-     @Autowired
+    @Autowired
     private ${Service} ${Service ? lower_case};
 
 }

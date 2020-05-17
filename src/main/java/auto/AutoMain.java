@@ -1,11 +1,7 @@
 package auto;
 
 import auto.bean.utils.BeanUtils;
-import auto.freemarker.JpaUtils;
-
-import java.beans.PropertyVetoException;
-import java.io.IOException;
-import java.sql.SQLException;
+import auto.freemarker.FreemarkerUtils;
 
 /**
  * 描 述: 请描述功能
@@ -14,17 +10,23 @@ import java.sql.SQLException;
  * 版 本: v1.0
  **/
 public class AutoMain {
-    public static void main(String[] args) throws PropertyVetoException, SQLException, IOException {
-        jpa();
-        BeanUtils.openFileDirectory(BeanConfig.JPA_CLASS_PATH);
-    }
+//    public static void main(String[] args) throws PropertyVetoException, SQLException, IOException {
+//        jpa();
+//        BeanUtils.openFileDirectory(BeanConfig.JPA_CLASS_PATH);
+//    }
+//
+//    public static void jpa() throws PropertyVetoException, SQLException {
+//        JpaUtils.commonDataBase("bean.mysql", BeanConfig.JPA_IMPORTS_BEAN, "Entity", "bean");
+//        JpaUtils.commonDataBase("bean_vo.mysql", BeanConfig.JPA_IMPORTS_BEAN_VO, "VO", "vo");
+//        JpaUtils.commonDataBase("repository.mysql", BeanConfig.JPA_IMPORTS_REPOSITORY, "Repository", "repository");
+//        JpaUtils.commonDataBase("service.mysql", BeanConfig.JPA_IMPORTS_SERVICE, "Service", "service");
+//        JpaUtils.commonDataBase("service_impl.mysql", BeanConfig.JPA_IMPORTS_SERVICE_IMPL, "ServiceImpl", "service//impl");
+//        JpaUtils.commonDataBase("controller.mysql", BeanConfig.JPA_IMPORTS_CONTROLLER, "Controller", "controller");
+//    }
 
-    public static void jpa() throws PropertyVetoException, SQLException {
-        JpaUtils.jpaBase("bean.ftl", BeanConfig.JPA_IMPORTS_BEAN, "Entity", "bean");
-        JpaUtils.jpaBase("bean_vo.ftl", BeanConfig.JPA_IMPORTS_BEAN_VO, "VO", "vo");
-        JpaUtils.jpaBase("repository.ftl", BeanConfig.JPA_IMPORTS_REPOSITORY, "Repository", "repository");
-        JpaUtils.jpaBase("service.ftl", BeanConfig.JPA_IMPORTS_SERVICE, "Service", "service");
-        JpaUtils.jpaBase("service_impl.ftl", BeanConfig.JPA_IMPORTS_SERVICE_IMPL, "ServiceImpl", "service//impl");
-        JpaUtils.jpaBase("controller.ftl", BeanConfig.JPA_IMPORTS_CONTROLLER, "Controller", "controller");
+    public static void main(String[] args) {
+        FreemarkerUtils freemarkerUtils = new FreemarkerUtils();
+        freemarkerUtils.commonDataBase("bean.ftl", "Entity", "bean");
+        BeanUtils.openFileDirectory(BeanConfig.JPA_CLASS_PATH);
     }
 }

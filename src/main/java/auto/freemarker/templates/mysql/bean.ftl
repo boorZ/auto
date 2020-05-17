@@ -1,6 +1,6 @@
-<#if classPath??>
-package ${classPath};
-</#if>
+<#--<#if classPath??>-->
+<#--package ${classPath};-->
+<#--</#if>-->
 <#--${imports}-->
 
 @Entity

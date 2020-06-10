@@ -1,14 +1,15 @@
-package auto;
+package com.auto;
 
-import auto.bean.utils.BeanUtils;
-import auto.freemarker.FreemarkerUtils;
+import com.auto.entities.TableBO;
+import com.auto.utils.C3P0Utils;
+
+import java.util.List;
 
 /**
- * 描 述: 请描述功能
- * 作 者: ZhouLin
- * 日 期: 创建时间: 2019/4/29
- * 版 本: v1.0
- **/
+ * @author zhou lin
+ * @description 项目入口
+ * @create 2020-06-07 17:15
+ */
 public class AutoMain {
 //    public static void main(String[] args) throws PropertyVetoException, SQLException, IOException {
 //        jpa();
@@ -25,8 +26,20 @@ public class AutoMain {
 //    }
 
     public static void main(String[] args) {
-        FreemarkerUtils freemarkerUtils = new FreemarkerUtils();
-        freemarkerUtils.commonDataBase("bean.ftl", "Entity", "bean");
-        BeanUtils.openFileDirectory(BeanConfig.JPA_CLASS_PATH);
+//        FreemarkerUtils freemarkerUtils = new FreemarkerUtils();
+//        freemarkerUtils.commonDataBase("bean.ftl", "Entity", "bean");
+//        BeanUtils.openFileDirectory(BeanConfig.JPA_CLASS_PATH);
+
+//        String s = null;
+//        Optional<String> empty = Optional.ofNullable(s);
+//        System.out.println("是否有值："+ empty.isPresent());
+//        empty.ifPresent(x -> System.out.println(x));
+//        System.out.println(empty.equals("1"));
+//        System.out.println(empty.equals(Optional.of("11")));
+//        System.out.println(empty.orElse("111"));
+//        System.out.println(s.equals("1"));
+
+        List<TableBO> tableBOS = C3P0Utils.tableColumnType();
+        tableBOS.forEach(System.out::println);
     }
 }

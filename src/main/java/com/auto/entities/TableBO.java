@@ -1,21 +1,23 @@
-package auto.c3p0.entities;
+package com.auto.entities;
 
 import lombok.Data;
-
 import java.util.List;
 
 /**
- * 描 述: 请描述功能
- * 作 者: ZhouLin
- * 日 期: 创建时间: 2019/4/28
- * 版 本: v1.0
- **/
+ * @author zhou lin
+ * @description 数据库表实体类
+ * @create 2020-06-07 17:15
+ */
 @Data
 public class TableBO {
     /**
      * 表名
      **/
     private Object tableName;
+    /**
+     * 主键
+     **/
+    private ColumnBO primaryKey;
     /**
      * 列名集
      **/

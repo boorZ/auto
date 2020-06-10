@@ -1,7 +1,7 @@
-package auto.bean.utils;
+package com.auto.utils;
 
-import auto.BeanConfig;
-import auto.c3p0.entities.ColumnBO;
+import com.auto.BeanConfig;
+import com.auto.entities.ColumnBO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,11 +11,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * 描 述: 请描述功能
- * 作 者: ZhouLin
- * 日 期: 创建时间: 2019/4/29
- * 版 本: v1.0
- **/
+ * @author zhou lin
+ * @description Bean工具类
+ * @create 2020-06-07 17:15
+ */
 public class BeanUtils {
 
     private Logger log = LoggerFactory.getLogger(BeanUtils.class);
@@ -40,20 +39,6 @@ public class BeanUtils {
             result.append(paraSplit, 1, paraSplit.length());
             isInitialToggleCase = true;
         }
-
-//        for (int i = 0; i < paraSplits.length; i++) {
-//            String s0;
-//            if (i == 0) {
-//                if (!isInitialToggleCase) {
-//                    s0 = paraSplits[i].substring(0, 1);
-//                } else {
-//                    s0 = paraSplits[i].substring(0, 1).toUpperCase();
-//                }
-//            } else {
-//                s0 = paraSplits[i].substring(0, 1).toUpperCase();
-//            }
-//            result.append(s0).append(paraSplits[i].substring(1));
-//        }
         return result.toString();
     }
 
@@ -81,7 +66,7 @@ public class BeanUtils {
      */
     private static List<ColumnBO> filtration(List<ColumnBO> columnBoList) {
         return columnBoList.stream().filter(columnBO ->
-                !BeanConfig.NEGLECT_FIELDS.contains((CharSequence) columnBO.getConlumName()))
+                !BeanConfig.NEGLECT_FIELDS.contains((CharSequence) columnBO.getColumnName()))
                 .collect(Collectors.toList());
     }
 }

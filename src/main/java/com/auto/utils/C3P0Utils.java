@@ -1,10 +1,10 @@
-package auto.c3p0;
+package com.auto.utils;
 
-import auto.BeanConfig;
-import auto.bean.utils.BeanUtils;
-import auto.c3p0.entities.ColumnBO;
-import auto.c3p0.entities.TableBO;
+import com.auto.BeanConfig;
+import com.auto.entities.ColumnBO;
+import com.auto.entities.TableBO;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
+import com.mchange.v2.c3p0.impl.AbstractPoolBackedDataSource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 
@@ -12,13 +12,13 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 /**
- * 描 述: 请描述功能
- * 作 者: ZhouLin
- * 日 期: 创建时间: 2019/4/28
- * 版 本: v1.0
- **/
+ * @author zhou lin
+ * @description 数据库C3P0工具实体类
+ * @create 2020-06-07 17:15
+ */
 @Slf4j
 public class C3P0Utils {
 
@@ -59,7 +59,7 @@ public class C3P0Utils {
      *
      * @param sql Sql语句
      */
-    public ResultSet getConnection(String sql) {
+    public static ResultSet getConnection(String sql) {
         ResultSet rs = null;
         try {
             sta = con.createStatement();
@@ -110,7 +110,7 @@ public class C3P0Utils {
      * @param tableName  表名
      * @return 该表的主键名称
      */
-    public List<String> getAllPrimaryKeys(String schemaName, String tableName) {
+    public static String getAllPrimaryKey(String schemaName, String tableName) {
         List<String> primaryNames = new LinkedList<>();
         ResultSet rs = null;
         try {
@@ -133,9 +133,9 @@ public class C3P0Utils {
         }
         if (CollectionUtils.isNotEmpty(primaryNames) && primaryNames.size() > 1) {
             log.info(tableName + "表存在多个主键");
-            return new ArrayList<>();
+            return "";
         }
-        return primaryNames;
+        return primaryNames.get(0);
     }
 
     /**
@@ -143,7 +143,7 @@ public class C3P0Utils {
      *
      * @return 封装表名、列名、列类型
      */
-    public List<TableBO> tableColumnType() {
+    public static List<TableBO> tableColumnType() {
         List<TableBO> tableList = new ArrayList<>();
         ResultSet rs = getConnection("show tables");
         try {
@@ -165,11 +165,13 @@ public class C3P0Utils {
     /**
      * 根据表名来返回该表对应列名和列类型
      *
-     * @param table 表名
+     * @param tableName 表名
      * @return 该表对应列名和列类型
      */
-    private List<ColumnBO> getColumn(Object table) {
-        ResultSet rs = getConnection("select * from " + table);
+    private static List<ColumnBO> getColumn(Object tableName) {
+        ResultSet rs = getConnection("select * from " + tableName);
+        // 主键
+        String primaryKeys = getAllPrimaryKey(null, tableName.toString());
         // 字段对象集
         List<ColumnBO> columnList = new ArrayList<>();
         try {
@@ -185,7 +187,8 @@ public class C3P0Utils {
                 // 将字段名转成驼峰命名
                 String columnNameToggleCase = BeanUtils.toggleCase(columnName, true);
                 // 存入字段对象
-                columnList.add(new ColumnBO(columnName, columnNameToggleCase, columnTypeName));
+                ColumnBO columnBO = new ColumnBO(columnName, columnNameToggleCase, columnTypeName);
+                columnList.add(columnBO);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -196,32 +199,30 @@ public class C3P0Utils {
     }
 
     public void close() {
-        if (sta != null) {
+        Optional.ofNullable(sta).ifPresent(r -> {
             try {
-                sta.close();
+                r.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-        }
-        if (con != null) {
+        });
+        Optional.ofNullable(con).ifPresent(r -> {
             try {
-                con.close();
+                r.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-        }
-        if (cpds != null) {
-            cpds.close();
-        }
+        });
+        Optional.ofNullable(cpds).ifPresent(AbstractPoolBackedDataSource::close);
     }
 
-    private void closeRs(ResultSet rs) {
-        if (rs != null) {
+    private static void closeRs(ResultSet rs) {
+        Optional.ofNullable(rs).ifPresent(r -> {
             try {
-                rs.close();
+                r.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-        }
+        });
     }
 }

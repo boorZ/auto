@@ -1,4 +1,4 @@
-package auto;
+package com.auto;
 
 /**
  * 描 述: 请描述功能

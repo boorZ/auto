@@ -1,8 +1,7 @@
-package auto.freemarker;
+package com.auto.utils;
 
-import auto.BeanConfig;
-import auto.c3p0.C3P0Utils;
-import auto.c3p0.entities.TableBO;
+import com.auto.BeanConfig;
+import com.auto.entities.TableBO;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import org.slf4j.Logger;
@@ -13,14 +12,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static auto.bean.utils.BeanUtils.toggleCase;
+import static com.auto.utils.BeanUtils.toggleCase;
 
 /**
- * 描 述: Freemarker工具类
- * 作 者: ZhouLin
- * 日 期: 创建时间: 2020/5/12
- * 版 本: v1.0
- **/
+ * @author zhou lin
+ * @description Freemarker工具类
+ * @create 2020-06-07 17:15
+ */
 public class FreemarkerUtils {
     private Logger log = LoggerFactory.getLogger(FreemarkerUtils.class);
 
@@ -50,15 +48,15 @@ public class FreemarkerUtils {
 //        conn.close();
 //        C3P0Utils.close();
 
-        C3P0Utils c3P0Utils = new C3P0Utils();
-        List<TableBO> tableBOS = c3P0Utils.tableColumnType();
-        for (TableBO tableBO : tableBOS) {
-            System.out.println();
-            List<String> allPrimaryKeys = c3P0Utils.getAllPrimaryKeys(null, tableBO.getTableName().toString());
-            System.out.println(allPrimaryKeys);
-            System.out.println(tableBO);
-        }
-        c3P0Utils.close();
+//        C3P0Utils c3P0Utils = new C3P0Utils();
+//        List<TableBO> tableBOS = c3P0Utils.tableColumnType();
+//        for (TableBO tableBO : tableBOS) {
+//            System.out.println();
+//            List<String> allPrimaryKeys = c3P0Utils.getAllPrimaryKey(null, tableBO.getTableName().toString());
+//            System.out.println(allPrimaryKeys);
+//            System.out.println(tableBO);
+//        }
+//        c3P0Utils.close();
     }
 
     /**

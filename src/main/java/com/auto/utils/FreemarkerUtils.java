@@ -11,6 +11,7 @@ import java.io.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import static com.auto.utils.BeanUtils.toggleCase;
 
@@ -104,35 +105,50 @@ public class FreemarkerUtils {
      * @param fileDir     文件路径
      */
     public void commonDataBase(String ftlName, String javaPostfix, String fileDir) {
-        C3P0Utils c3P0Utils = new C3P0Utils();
         // 获取表名、列名、列类型
-        List<TableBO> tableList = c3P0Utils.tableColumnType();
-        for (TableBO table : tableList) {
+        List<TableBO> tableList = C3P0Utils.tableColumnType();
+        Optional.ofNullable(tableList).ifPresent(tables -> tables.forEach(table -> {
             // 表名转成驼峰命名
             String hump = toggleCase((String) table.getTableName(), true);
             // 生成文件名称
-            String java = hump + javaPostfix;
-//            // 生成文件路径
-//            String classPath = BeanConfig.JPA_CLASS_PATH;
-//            if (classPath.contains("src/main/java")) {
-//                classPath = classPath.split("src/main/java/")[1].replace("/", ".");
-//                classPath += fileDir;
-//            } else {
-//                classPath = null;
-//            }
+            String javaName = hump + javaPostfix;
+            // 生成文件路径
+            String classPath = BeanConfig.JPA_CLASS_PATH;
+            if (classPath.contains("src/main/java")) {
+                classPath = classPath.split("src/main/java/")[1].replace("/", ".");
+                classPath += fileDir;
+            } else {
+                classPath = null;
+            }
 
-            Map<String, Object> map = new HashMap<>();
-//            map.put("classPath", classPath);
-            map.put("className", table.getTableName());
-            map.put("fileName", java);
-            map.put("newMember", table.getColumnCountList());
-            map.put("T", hump + "Entity");
-            map.put("Service", hump + "Service");
-            map.put("Repository", hump + "Repository");
-            map.put("mapping", javaPostfix);
-
-            commonFreeMarkerBase(map, ftlName, fileDir, java + ".java");
-        }
-        c3P0Utils.close();
+            System.out.println();
+        }));
+//        for (TableBO table : tableList) {
+//            // 表名转成驼峰命名
+//            String hump = toggleCase((String) table.getTableName(), true);
+//            // 生成文件名称
+//            String java = hump + javaPostfix;
+////            // 生成文件路径
+////            String classPath = BeanConfig.JPA_CLASS_PATH;
+////            if (classPath.contains("src/main/java")) {
+////                classPath = classPath.split("src/main/java/")[1].replace("/", ".");
+////                classPath += fileDir;
+////            } else {
+////                classPath = null;
+////            }
+//
+//            Map<String, Object> map = new HashMap<>();
+////            map.put("classPath", classPath);
+//            map.put("className", table.getTableName());
+//            map.put("fileName", java);
+//            map.put("newMember", table.getColumnCountList());
+//            map.put("T", hump + "Entity");
+//            map.put("Service", hump + "Service");
+//            map.put("Repository", hump + "Repository");
+//            map.put("mapping", javaPostfix);
+//
+//            commonFreeMarkerBase(map, ftlName, fileDir, java + ".java");
+//        }
+        C3P0Utils.close();
     }
 }

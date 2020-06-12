@@ -131,9 +131,15 @@ public class C3P0Utils {
         } finally {
             closeRs(rs);
         }
-        if (CollectionUtils.isNotEmpty(primaryNames) && primaryNames.size() > 1) {
-            log.info(tableName + "表存在多个主键");
-            return "";
+        switch (primaryNames.size()) {
+            case 0:
+                log.info(tableName + "表，不存在主键");
+                break;
+            case 1:
+                log.info(tableName + "表，存在多个主键");
+                break;
+            default:
+                break;
         }
         return primaryNames.get(0);
     }
@@ -171,7 +177,7 @@ public class C3P0Utils {
     private static List<ColumnBO> getColumn(Object tableName) {
         ResultSet rs = getConnection("select * from " + tableName);
         // 主键
-        String primaryKeys = getAllPrimaryKey(null, tableName.toString());
+//        String primaryKeys = getAllPrimaryKey(null, tableName.toString());
         // 字段对象集
         List<ColumnBO> columnList = new ArrayList<>();
         try {
@@ -198,7 +204,7 @@ public class C3P0Utils {
         return columnList;
     }
 
-    public void close() {
+    public static void close() {
         Optional.ofNullable(sta).ifPresent(r -> {
             try {
                 r.close();

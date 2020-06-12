@@ -2,6 +2,7 @@ package com.auto;
 
 import com.auto.entities.TableBO;
 import com.auto.utils.C3P0Utils;
+import com.auto.utils.FreemarkerUtils;
 
 import java.util.List;
 
@@ -38,8 +39,9 @@ public class AutoMain {
 //        System.out.println(empty.equals(Optional.of("11")));
 //        System.out.println(empty.orElse("111"));
 //        System.out.println(s.equals("1"));
-
-        List<TableBO> tableBOS = C3P0Utils.tableColumnType();
-        tableBOS.forEach(System.out::println);
+        FreemarkerUtils freemarkerUtils = new FreemarkerUtils();
+        freemarkerUtils.commonDataBase("bean.ftl", "Entity", "bean");
+//        List<TableBO> tableBOS = C3P0Utils.tableColumnType();
+//        tableBOS.forEach(System.out::println);
     }
 }

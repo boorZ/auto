@@ -18,11 +18,11 @@ public class BeanConfig {
     /**
      * 数据库密码
      **/
-    public static String DB_PASSWORD = "123456";
+    public static String DB_PASSWORD = "Root123456";
     /**
      * 数据库名称
      **/
-    public static String DB_DATABASE = "zl";
+    public static String DB_DATABASE = "test_zl";
     /**
      * 忽略字段
      **/

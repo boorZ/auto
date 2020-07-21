@@ -1,6 +1,7 @@
 package com.auto.entities;
 
 import lombok.Data;
+
 import java.util.List;
 
 /**

@@ -2,13 +2,13 @@ package com.auto.utils;
 
 import com.auto.BeanConfig;
 import com.auto.entities.TableBO;
+import com.auto.entities.ftl.mysql.puls.MySqlPlusResBO;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -61,9 +61,9 @@ public class FreemarkerUtils {
     }
 
     /**
-     * @param dataMap     生成文件所需数据
-     * @param ftlName     ftl文件名称
-     * @param fileDir     文件路径
+     * @param dataMap  生成文件所需数据
+     * @param ftlName  ftl文件名称
+     * @param fileDir  文件路径
      * @param fileName 生成文件新名称
      */
     public void commonFreeMarkerBase(Map<String, Object> dataMap, String ftlName, String fileDir, String fileName) {
@@ -100,26 +100,24 @@ public class FreemarkerUtils {
     }
 
     /**
-     * @param ftlName     ftl文件名称
+     * @param ftlPath     ftl文件路径
      * @param javaPostfix 生成Java文件后缀名
-     * @param fileDir     文件路径
+     * @param classPath   类路径
      */
-    public void commonDataBase(String ftlName, String javaPostfix, String fileDir) {
+    public void commonDataBase(String ftlPath, String javaPostfix, String classPath) {
         // 获取表名、列名、列类型
         List<TableBO> tableList = C3P0Utils.tableColumnType();
         Optional.ofNullable(tableList).ifPresent(tables -> tables.forEach(table -> {
+            String tableName = table.getTableName().toString();
             // 表名转成驼峰命名
-            String hump = toggleCase((String) table.getTableName(), true);
-            // 生成文件名称
-            String javaName = hump + javaPostfix;
-            // 生成文件路径
-            String classPath = BeanConfig.JPA_CLASS_PATH;
-            if (classPath.contains("src/main/java")) {
-                classPath = classPath.split("src/main/java/")[1].replace("/", ".");
-                classPath += fileDir;
-            } else {
-                classPath = null;
-            }
+            String hump = toggleCase(tableName, true);
+
+            MySqlPlusResBO mySqlPlusResBO = MySqlPlusResBO.create(MySqlPlusResBO::new);
+            mySqlPlusResBO.setClassName(hump + javaPostfix);
+            mySqlPlusResBO.setTableName(tableName);
+            mySqlPlusResBO.setClassPath(classPath);
+            mySqlPlusResBO.setColumns(table.getColumnCountList());
+//            mySqlPlusResBO.setEntitiesName();
 
             System.out.println();
         }));

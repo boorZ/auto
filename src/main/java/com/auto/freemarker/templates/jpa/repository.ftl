@@ -1,5 +1,5 @@
 <#if classPath??>
-package ${classPath};
+    package ${classPath};
 </#if>
 
 ${imports}

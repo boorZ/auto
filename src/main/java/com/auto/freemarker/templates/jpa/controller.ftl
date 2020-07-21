@@ -1,5 +1,5 @@
 <#if classPath??>
-package ${classPath};
+    package ${classPath};
 </#if>
 
 ${imports}
@@ -7,7 +7,7 @@ ${imports}
 @RestController
 @RequestMapping(value = "/")
 public class ${fileName} {
-    @Autowired
-    private ${Service} ${Service ? lower_case};
+@Autowired
+private ${Service} ${Service ? lower_case};
 
 }
